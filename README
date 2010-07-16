@@ -1,0 +1,5 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3152
+
+This file provides syntax highlighting for sablecc grammar. For windows compatible the 
+grammar should end with .scc
+
