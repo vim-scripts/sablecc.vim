@@ -1,9 +1,7 @@
 " Vim syntax file
-" Language:	    sablecc (Url: http://sablecc.org/)
-" Maintainer:	Hong Phuc Bui (String highlight is modified from Java String of
-"               Claudio Fleiner <claudio@fleiner.com> )
+" Language:	sablecc
+" Maintainer:	Hong Phuc Bui
 " Last Change:	2010.07.15
-" Status:       Beta
 
 
 syn keyword sableccSection   Package Helpers Tokens Productions
@@ -11,16 +9,17 @@ syn match   sableccSection   'Ignored\sTokens'
 syn match   sableccSection   'Abstract\sSyntax\sTree'
 
 syn match   sableccOperator  '[\|\*\?\+\()=-]'
+syn match   sableccCharacter '\'\S\'\|\'\'\''
+syn keyword sableccOperator  New
 
-syn match   sableccCharacter '\'\p\'\|\'\'\''
 
-
-
+" TODO: fix string
 " Strings and constants
 " String
 syn match   sableccString        '\'\S\{2,}\''
-syn match   sableccStringError   '\'\s\{2,}\S*\''
 syn match   sableccProduction    '{\w*}'
+syn match	sableccAST           '{->\s\w*}'
+syn match	sableccASTAlt        '\w*\.\w\+'
 
 
 " Comments
@@ -33,14 +32,15 @@ syn match   sableccNumber		 "\<\d\+[eE][-+]\=\d\+[fFdD]\=\>"
 syn match   sableccNumber		 "\<\d\+\([eE][-+]\=\d\+\)\=[fFdD]\>"
 
 
-syn region  sableccCommentString    contained start=+"+ end=+"+ end=+$+ end=+\*/+me=s-1,he=s-1 contains=sableccSpecial,sableccCommentStar,sableccSpecialChar,@Spell
-syn region  sableccComment2String   contained start=+"+  end=+$\|"+  contains=sableccSpecial,sableccSpecialChar,@Spell
-syn match   sableccCommentCharacter contained "'\\[^']\{1,6\}'" contains=sableccSpecialChar
-syn match   sableccCommentCharacter contained "'\\''" contains=sableccSpecialChar
-syn match   sableccCommentCharacter contained "'[^\\]'"
-syn cluster sableccCommentSpecial add=sableccCommentString,sableccCommentCharacter,sableccNumber
-syn cluster sableccCommentSpecial2 add=sableccComment2String,sableccCommentCharacter,sableccNumber
-
+""if exists("sablecc_comment_strings")
+  syn region  sableccCommentString    contained start=+"+ end=+"+ end=+$+ end=+\*/+me=s-1,he=s-1 contains=sableccSpecial,sableccCommentStar,sableccSpecialChar,@Spell
+  syn region  sableccComment2String   contained start=+"+  end=+$\|"+  contains=sableccSpecial,sableccSpecialChar,@Spell
+  syn match   sableccCommentCharacter contained "'\\[^']\{1,6\}'" contains=sableccSpecialChar
+  syn match   sableccCommentCharacter contained "'\\''" contains=sableccSpecialChar
+  syn match   sableccCommentCharacter contained "'[^\\]'"
+  syn cluster sableccCommentSpecial add=sableccCommentString,sableccCommentCharacter,sableccNumber
+  syn cluster sableccCommentSpecial2 add=sableccComment2String,sableccCommentCharacter,sableccNumber
+""endif
 syn region  sableccComment		 start="/\*"  end="\*/" contains=@sableccCommentSpecial,sableccTodo,@Spell
 syn match   sableccCommentStar      contained "^\s*\*[^/]"me=e-1
 syn match   sableccCommentStar      contained "^\s*\*$"
@@ -53,9 +53,6 @@ hi def link sableccOperator    Statement
 hi def link sableccCharacter   Type
 hi def link sableccProduction  PreProc
 hi def link sableccString      String
-hi def link sableccStringError Error
-
-hi def link sableccNumber         Number
-hi def link sableccTodo           Todo
-
-
+hi def link sableccNumber      Number
+hi def link sableccAST         Structure
+hi def link sableccASTAlt      Identifier
